@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Security Project - Professional Documentation</title>
+    <style>
+        /* Design System Variables */
+        :root {
+            --color-bg-primary: #1a1a2e;
+            --color-bg-secondary: #16213e;
+            --color-bg-card: #0f1419;
+            --color-accent: #e94560;
+            --color-accent-hover: #ff5577;
+            --color-text-primary: #ffffff;
+            --color-text-secondary: #b8b8b8;
+            --color-text-muted: #808080;
+            --color-border: #2a2a3e;
+            --color-success: #4ecca3;
+            --color-warning: #ffd32a;
+            --color-info: #5584ff;
+            --spacing-xs: 8px;
+            --spacing-sm: 12px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+            --spacing-xl: 32px;
+            --spacing-2xl: 48px;
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 16px;
+            --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background: linear-gradient(135deg, var(--color-bg-primary) 0%, var(--color-bg-secondary) 100%);
+            color: var(--color-text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-lg);
+        }
+
+        /* Team Header */
+        .team-header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%);
+            padding: var(--spacing-2xl) 0;
+            text-align: center;
+            border-bottom: 3px solid var(--color-accent);
+            box-shadow: 0 4px 20px rgba(233, 69, 96, 0.3);
+        }
+
+        .team-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: var(--spacing-lg);
+            color: var(--color-accent);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .team-members {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-xl);
+        }
+
+        .team-member {
+            background: var(--color-bg-card);
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-md);
+            border: 2px solid var(--color-border);
+            transition: var(--transition);
+        }
+
+        .team-member:hover {
+            border-color: var(--color-accent);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(233, 69, 96, 0.4);
+        }
+
+        .team-member-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--color-text-primary);
+        }
+
+        /* Navigation */
+        .nav-wrapper {
+            position: sticky;
+            top: 0;
+            background: var(--color-bg-secondary);
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            padding: var(--spacing-md) 0;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+        }
+
+        nav a {
+            color: var(--color-text-secondary);
+            text-decoration: none;
+            padding: var(--spacing-sm) var(--spacing-lg);
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+            font-weight: 500;
+            border: 1px solid transparent;
+        }
+
+        nav a:hover {
+            background: var(--color-accent);
+            color: var(--color-text-primary);
+            border-color: var(--color-accent);
+        }
+
+        /* Section Styles */
+        section {
+            padding: var(--spacing-2xl) 0;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        section h2 {
+            font-size: 2.2rem;
+            margin-bottom: var(--spacing-xl);
+            color: var(--color-accent);
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        section h3 {
+            font-size: 1.6rem;
+            margin-bottom: var(--spacing-md);
+            color: var(--color-info);
+        }
+
+        /* Cards */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: var(--spacing-lg);
+            margin-top: var(--spacing-xl);
+        }
+
+        .card {
+            background: var(--color-bg-card);
+            border: 2px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .card:hover {
+            border-color: var(--color-accent);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(233, 69, 96, 0.3);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--color-text-primary);
+        }
+
+        .card-icon {
+            font-size: 1.5rem;
+        }
+
+        .card-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .card.expanded .card-content {
+            max-height: 1000px;
+        }
+
+        .card-content p {
+            margin-top: var(--spacing-md);
+            color: var(--color-text-secondary);
+            line-height: 1.8;
+        }
+
+        .card-content strong {
+            color: var(--color-warning);
+        }
+
+        /* Badge */
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: var(--spacing-sm);
+        }
+
+        .badge-attack {
+            background: rgba(233, 69, 96, 0.2);
+            color: var(--color-accent);
+            border: 1px solid var(--color-accent);
+        }
+
+        .badge-mitigation {
+            background: rgba(78, 204, 163, 0.2);
+            color: var(--color-success);
+            border: 1px solid var(--color-success);
+        }
+
+        .badge-info {
+            background: rgba(85, 132, 255, 0.2);
+            color: var(--color-info);
+            border: 1px solid var(--color-info);
+        }
+
+        /* Overview Section */
+        .overview-content {
+            background: var(--color-bg-card);
+            border: 2px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            margin-top: var(--spacing-xl);
+        }
+
+        .overview-content h3 {
+            color: var(--color-success);
+            margin-top: var(--spacing-lg);
+        }
+
+        .overview-content ul {
+            list-style: none;
+            margin-top: var(--spacing-md);
+        }
+
+        .overview-content li {
+            padding: var(--spacing-sm) 0;
+            padding-left: var(--spacing-lg);
+            position: relative;
+            color: var(--color-text-secondary);
+        }
+
+        .overview-content li:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: var(--color-accent);
+            font-weight: bold;
+        }
+
+        /* Step Cards */
+        .step-card {
+            background: var(--color-bg-card);
+            border-left: 4px solid var(--color-accent);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-lg);
+            border: 2px solid var(--color-border);
+            border-left: 4px solid var(--color-accent);
+        }
+
+        .step-number {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: var(--color-accent);
+            color: var(--color-text-primary);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            font-weight: bold;
+            margin-right: var(--spacing-md);
+            font-size: 1.2rem;
+        }
+
+        .step-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .step-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--color-text-primary);
+        }
+
+        .step-content p {
+            margin: var(--spacing-sm) 0;
+            color: var(--color-text-secondary);
+        }
+
+        .step-label {
+            font-weight: 600;
+            color: var(--color-warning);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .team-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .team-members {
+                grid-template-columns: 1fr;
+            }
+
+            nav {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            section h2 {
+                font-size: 1.8rem;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Smooth Scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--color-bg-primary);
+            padding: var(--spacing-xl) 0;
+            text-align: center;
+            color: var(--color-text-muted);
+            border-top: 2px solid var(--color-accent);
+        }
+    </style>
+</head>
+<body>
+    <!-- Team Header -->
+    <header class="team-header">
+        <div class="container">
+            <h1>Network Security Project</h1>
+            <p style="color: var(--color-text-secondary); font-size: 1.1rem; margin-bottom: var(--spacing-lg);">Professional Security Documentation &amp; Implementation</p>
+            <div class="team-members">
+                <div class="team-member">
+                    <div class="team-member-name">Amr Khaled Saad</div>
+                </div>
+                <div class="team-member">
+                    <div class="team-member-name">Ahmed Mahmoud Mohamed</div>
+                </div>
+                <div class="team-member">
+                    <div class="team-member-name">Youssef Hosseny Mohamed</div>
+                </div>
+                <div class="team-member">
+                    <div class="team-member-name">Youssef Wageh Moawa</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <div class="nav-wrapper">
+        <nav>
+            <a href="#overview">Overview</a>
+            <a href="#general-attacks">General Attacks &amp; Vulnerabilities</a>
+            <a href="#network-attacks">Network Attacks</a>
+            <a href="#security-controls">Core Security Controls</a>
+            <a href="#fortigate">FortiGate Configuration</a>
+            <a href="#nat-policies">NAT &amp; Firewall Policies</a>
+        </nav>
+    </div>
+
+    <!-- Overview Section -->
+    <section id="overview">
+        <div class="container">
+            <h2>Project Overview</h2>
+            <div class="overview-content">
+                <p style="font-size: 1.1rem; color: var(--color-text-secondary); line-height: 1.8;">
+                    This comprehensive network security project documents critical security threats, vulnerabilities, and implementation strategies for enterprise network protection. Our approach combines theoretical knowledge with practical FortiGate firewall configuration to create a robust security posture.
+                </p>
+                <h3>Key Objectives</h3>
+                <ul>
+                    <li>Identify and analyze common security threats and attack vectors</li>
+                    <li>Implement defense-in-depth strategies across all network layers</li>
+                    <li>Configure FortiGate firewall with secure policies and NAT rules</li>
+                    <li>Establish comprehensive monitoring and incident response capabilities</li>
+                    <li>Ensure compliance with security best practices and standards</li>
+                    <li>Create a scalable and maintainable security architecture</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- General Attacks Section -->
+    <section id="general-attacks">
+        <div class="container">
+            <h2>General Attacks &amp; Vulnerabilities</h2>
+            <div class="cards-grid" id="general-attacks-grid"></div>
+        </div>
+    </section>
+
+    <!-- Network Attacks Section -->
+    <section id="network-attacks">
+        <div class="container">
+            <h2>Network Attacks</h2>
+            <div class="cards-grid" id="network-attacks-grid"></div>
+        </div>
+    </section>
+
+    <!-- Security Controls Section -->
+    <section id="security-controls">
+        <div class="container">
+            <h2>Core Security Controls</h2>
+            <div class="cards-grid" id="security-controls-grid"></div>
+        </div>
+    </section>
+
+    <!-- FortiGate Configuration Section -->
+    <section id="fortigate">
+        <div class="container">
+            <h2>FortiGate Configuration Steps</h2>
+            <div id="fortigate-steps"></div>
+        </div>
+    </section>
+
+    <!-- NAT & Firewall Policies Section -->
+    <section id="nat-policies">
+        <div class="container">
+            <h2>NAT &amp; Firewall Policies</h2>
+            <div id="nat-policies-steps"></div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Network Security Project - All Rights Reserved</p>
+            <p style="margin-top: var(--spacing-sm);">Developed by: Amr Khaled Saad, Ahmed Mahmoud Mohamed, Youssef Hosseny Mohamed, Youssef Wageh Moawa</p>
+        </div>
+    </footer>
+
+    <script>
+        // Data
+        const generalAttacks = [
+            {
+                name: "Social Engineering &amp; Phishing",
+                description: "Manipulating users to divulge sensitive information or perform malicious actions through deceptive communications.",
+                mitigation: "Security awareness training, phishing simulations, email security (DMARC/DKIM/SPF), URL filtering, blocking risky attachments",
+                benefit: "Reduces human vulnerability to social engineering attacks by 70-80% through education and technical controls."
+            },
+            {
+                name: "Ransomware",
+                description: "Malicious software that encrypts data and demands payment for decryption, causing operational disruption.",
+                mitigation: "Offline encrypted backups, immediate patching, restrict/secure RDP, use VPN or Zero-Trust for admin access",
+                benefit: "Enables rapid recovery without paying ransom, minimizes downtime and financial impact."
+            },
+            {
+                name: "Web Application Attacks (SQL Injection, XSS)",
+                description: "Exploiting vulnerabilities in web applications to steal data, execute malicious code, or compromise systems.",
+                mitigation: "Input validation, parameterized queries, WAF rules, regular code reviews",
+                benefit: "Protects sensitive data and prevents unauthorized access to backend systems."
+            },
+            {
+                name: "Supply-Chain Attacks",
+                description: "Compromising trusted third-party vendors or software to infiltrate target organizations.",
+                mitigation: "Vendor security assessments, trusted update sources, strict third-party monitoring",
+                benefit: "Reduces risk from compromised dependencies and maintains trust in software supply chain."
+            },
+            {
+                name: "Weak or Reused Passwords",
+                description: "Using easily guessable or previously compromised passwords across multiple accounts.",
+                mitigation: "Enforce MFA, strong password policies, password managers",
+                benefit: "Prevents credential-based attacks and reduces account compromise by 99%."
+            },
+            {
+                name: "Unpatched Software &amp; Firmware",
+                description: "Running outdated systems with known vulnerabilities that attackers can exploit.",
+                mitigation: "Patch management program, CVE risk prioritization, immediate fixes for critical vulnerabilities",
+                benefit: "Closes security gaps before exploitation, maintaining system integrity."
+            },
+            {
+                name: "Lack of Encryption",
+                description: "Transmitting or storing sensitive data without proper encryption, exposing it to interception.",
+                mitigation: "Enforce TLS 1.2/1.3, full-disk encryption, encrypted backups, secure key lifecycle management",
+                benefit: "Protects data confidentiality in transit and at rest, ensuring compliance."
+            }
+        ];
+
+        const networkAttacks = [
+            {
+                name: "Distributed Denial of Service (DDoS)",
+                description: "Overwhelming network resources with traffic to disrupt service availability.",
+                mitigation: "CDN protection, DDoS scrubbing services, rate limiting, geo-blocking, scalable cloud resources"
+            },
+            {
+                name: "Network Spoofing",
+                description: "Forging network packets to impersonate legitimate sources and bypass security controls.",
+                mitigation: "Depends on spoofing type (DNS/ARP/TLS), use secure protocols and validation mechanisms"
+            },
+            {
+                name: "ARP Spoofing",
+                description: "Sending fake ARP messages to associate attacker's MAC with legitimate IP addresses.",
+                mitigation: "Dynamic ARP Inspection, 802.1X, NAC, static ARP entries"
+            },
+            {
+                name: "Man-in-the-Middle (MitM)",
+                description: "Intercepting communications between two parties to eavesdrop or alter data.",
+                mitigation: "Enforce TLS 1.2/1.3, HSTS, VPN on untrusted networks, wireless intrusion detection (WIDS)"
+            },
+            {
+                name: "DNS Spoofing",
+                description: "Corrupting DNS responses to redirect users to malicious websites.",
+                mitigation: "DNSSEC, trusted DNS providers, enforce HTTPS, anomaly monitoring"
+            },
+            {
+                name: "Unsecured Networks (Open or Poorly Segmented Wi-Fi)",
+                description: "Exposing network traffic through unencrypted or improperly segmented wireless networks.",
+                mitigation: "Network segmentation, traffic isolation, strong Wi-Fi encryption"
+            },
+            {
+                name: "Misconfigured Firewalls",
+                description: "Improperly configured firewall rules that allow unauthorized access or expose services.",
+                mitigation: "Regular rule reviews, remove unused ports/services, secure management interfaces"
+            }
+        ];
+
+        const securityControls = [
+            {
+                name: "Identity &amp; Access Management (IAM)",
+                description: "MFA everywhere, least-privilege access, centralized SSO/IdP",
+                details: "Implement multi-factor authentication across all systems, enforce role-based access control (RBAC), and utilize single sign-on for centralized authentication management."
+            },
+            {
+                name: "Patch &amp; Vulnerability Management",
+                description: "Asset inventory, CVE prioritization, immediate patching for critical issues",
+                details: "Maintain comprehensive asset inventory, prioritize vulnerabilities based on CVSS scores and exploitability, and establish rapid response procedures for critical patches."
+            },
+            {
+                name: "Monitoring &amp; Detection (SIEM / EDR / IDS / IPS)",
+                description: "Log correlation, anomaly detection, fast alerts and response",
+                details: "Deploy Security Information and Event Management (SIEM), Endpoint Detection and Response (EDR), and network intrusion detection/prevention systems for comprehensive threat visibility."
+            },
+            {
+                name: "Encryption &amp; Key Management",
+                description: "TLS 1.2/1.3, full-disk encryption, encrypted backups, secure key lifecycle processes",
+                details: "Enforce modern encryption standards, implement Hardware Security Modules (HSMs) for key storage, and establish proper key rotation policies."
+            },
+            {
+                name: "Backup &amp; Disaster Recovery (DR)",
+                description: "Offline encrypted backups, regular recovery testing, business continuity planning",
+                details: "Implement 3-2-1 backup strategy (3 copies, 2 different media, 1 offsite), test recovery procedures quarterly, and maintain detailed disaster recovery documentation."
+            },
+            {
+                name: "Incident Response &amp; Security Resilience",
+                description: "Documented IR plan, defined roles, continuous threat awareness and readiness",
+                details: "Establish incident response team with clear roles and responsibilities, conduct regular tabletop exercises, and maintain threat intelligence feeds for proactive defense."
+            }
+        ];
+
+        const fortiGateSteps = [
+            {
+                step: 1,
+                title: "Initial Access &amp; Password Security",
+                action: "Logged into FortiGate using DHCP-assigned IP 192.168.1.10",
+                why: "Verify device connectivity and begin secure configuration",
+                benefit: "Protects against unauthorized login and reconnaissance"
+            },
+            {
+                step: 2,
+                title: "Initial IP Discovery and WAN Configuration",
+                action: "Configured Port 1 (WAN) in DHCP mode",
+                why: "Ensure valid IP for network access without static assignment",
+                benefit: "Reduces IP spoofing and attack surface"
+            },
+            {
+                step: 3,
+                title: "Assigning the Hostname",
+                action: "Changed hostname to NTL_Fortinet",
+                why: "Improve device identification in logs and audits",
+                benefit: "System hardening and prevents targeting confusion"
+            },
+            {
+                step: 4,
+                title: "Creating a New Administrator Account",
+                action: "Created super_admin account NTI with strong password",
+                why: "Default accounts are common attack targets",
+                benefit: "Mitigates credential attacks and brute-force attempts"
+            },
+            {
+                step: 5,
+                title: "Configuring the LAN Interface",
+                action: "Configured Port 2 (LAN) with 172.16.0.1/24, DHCP server 172.16.0.2-254",
+                why: "Secure internal network management and automation",
+                benefit: "HTTPS protects against MitM, DHCP prevents conflicts"
+            },
+            {
+                step: 6,
+                title: "Testing the Internal DHCP Server",
+                action: "Verified internal device received IP 172.16.0.2",
+                why: "Validate internal network readiness",
+                benefit: "Prevents DHCP failures and confirms stability"
+            },
+             {
+                step: 7,
+                title: "Configuring LAN_2 Interface (Port3)",
+                action: "LAN_2 (Port3) was configured with IP 172.16.2.1/24 and DHCP enabled for the 172.16.2.x network.",
+                why: "To create a second internal network segment for testing routing and inter-LAN communication.",
+                benefit: "Allows network segmentation, which is essential for limiting lateral movement in case of internal compromise."
+            }
+,
+             {
+                step: 8,
+                title: "Testing LAN_2 DHCP",
+                action: "A client automatically obtained the IP 172.16.2.2 from the DHCP server.",
+                why: "To verify the correct configuration of DHCP services on the second LAN.",
+                benefit: "Confirms reliability of the second internal segment and ensures readiness for multi-LAN communication."
+            }
+            ,
+            {
+    step: 9,
+    title: "Creating LAN-to-LAN Firewall Policies",
+    action: `Two firewall policies were created:
+        - PC1_PING_PC2 (LAN_1 → LAN_2)
+        - PC2_PING_PC1 (LAN_2 → LAN_1)
+        Services were restricted to PING only.`,
+    why: "To enable controlled communication between LANs for testing routing functionality.",
+    benefit: "Limits unnecessary exposure between networks and prevents unauthorized traffic, following least-privilege principles."
+}
+,
+            {
+    step: 10,
+    title: "Testing LAN-to-LAN Communication",
+    action: `Clients successfully pinged:
+        - LAN_1 gateway: 172.16.0.1
+        - LAN_2 client: 172.16.2.2`,
+    why: "To verify routing, connectivity, and firewall policy functionality.",
+    benefit: "Ensures the firewall enforces controlled, reliable communication between segmented networks while preventing unintended access."
+}
+
+
+        ];
+
+        const natPolicies = [
+            {
+                component: 1,
+                title: "Virtual Machine Network Configuration",
+                description: "FortiGate with VMnet2 (LAN) and VMnet1 (WAN), hosts segmented accordingly",
+                benefit: "Enables firewall functionality, safeguards internal systems"
+            },
+            {
+                component: 2,
+                title: "Static Route Configuration",
+                description: "Default route 0.0.0.0/0 via 192.168.1.1 on WAN",
+                benefit: "Enforces all traffic through firewall for policy enforcement"
+            },
+            {
+                component: 3,
+                title: "Source NAT (SNAT) Policy",
+                description: "Translates internal IPs to WAN interface for Internet access",
+                benefit: "Hides internal addresses, enables secure external access"
+            },
+            {
+                component: 4,
+                title: "Destination NAT (DNAT) / Port Forwarding",
+                description: "VIP mapping WAN 192.168.1.10:80 to internal server 10.0.0.2:80",
+                benefit: "Permits selective inbound traffic with translation"
+            },
+            {
+                component: 5,
+                title: "Verification of NAT Policies",
+                description: "Confirmed SNAT and DNAT functionality through testing",
+                benefit: "Ensures policy-led access in both directions"
+            }
+        ];
+
+        // Render General Attacks
+        const generalAttacksGrid = document.getElementById('general-attacks-grid');
+        generalAttacks.forEach((attack, index) => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.innerHTML = `
+                <div class="card-header">
+                    <div class="card-title">${attack.name}</div>
+                    <div class="card-icon">▼</div>
+                </div>
+                <span class="badge badge-attack">Threat</span>
+                <div class="card-content">
+                    <p><strong>What it is:</strong> ${attack.description}</p>
+                    <p><strong>Mitigation:</strong> ${attack.mitigation}</p>
+                    <p><strong>Security Benefit:</strong> ${attack.benefit}</p>
+                </div>
+            `;
+            card.addEventListener('click', () => toggleCard(card));
+            generalAttacksGrid.appendChild(card);
+        });
+
+        // Render Network Attacks
+        const networkAttacksGrid = document.getElementById('network-attacks-grid');
+        networkAttacks.forEach((attack, index) => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.innerHTML = `
+                <div class="card-header">
+                    <div class="card-title">${attack.name}</div>
+                    <div class="card-icon">▼</div>
+                </div>
+                <span class="badge badge-attack">Network Threat</span>
+                <div class="card-content">
+                    <p><strong>Description:</strong> ${attack.description}</p>
+                    <p><strong>Mitigation Strategy:</strong> ${attack.mitigation}</p>
+                </div>
+            `;
+            card.addEventListener('click', () => toggleCard(card));
+            networkAttacksGrid.appendChild(card);
+        });
+
+        // Render Security Controls
+        const securityControlsGrid = document.getElementById('security-controls-grid');
+        securityControls.forEach((control, index) => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.innerHTML = `
+                <div class="card-header">
+                    <div class="card-title">${control.name}</div>
+                    <div class="card-icon">▼</div>
+                </div>
+                <span class="badge badge-mitigation">Security Control</span>
+                <div class="card-content">
+                    <p><strong>Overview:</strong> ${control.description}</p>
+                    <p><strong>Implementation:</strong> ${control.details}</p>
+                </div>
+            `;
+            card.addEventListener('click', () => toggleCard(card));
+            securityControlsGrid.appendChild(card);
+        });
+
+        // Render FortiGate Steps
+        const fortiGateStepsContainer = document.getElementById('fortigate-steps');
+        fortiGateSteps.forEach(step => {
+            const stepCard = document.createElement('div');
+            stepCard.className = 'step-card';
+            stepCard.innerHTML = `
+                <div class="step-header">
+                    <span class="step-number">${step.step}</span>
+                    <div class="step-title">${step.title}</div>
+                </div>
+                <div class="step-content">
+                    <p><span class="step-label">Action:</span> ${step.action}</p>
+                    <p><span class="step-label">Why:</span> ${step.why}</p>
+                    <p><span class="step-label">Security Benefit:</span> ${step.benefit}</p>
+                </div>
+            `;
+            fortiGateStepsContainer.appendChild(stepCard);
+        });
+
+        // Render NAT Policies
+        const natPoliciesContainer = document.getElementById('nat-policies-steps');
+        natPolicies.forEach(policy => {
+            const stepCard = document.createElement('div');
+            stepCard.className = 'step-card';
+            stepCard.innerHTML = `
+                <div class="step-header">
+                    <span class="step-number">${policy.component}</span>
+                    <div class="step-title">${policy.title}</div>
+                </div>
+                <div class="step-content">
+                    <p><span class="step-label">Configuration:</span> ${policy.description}</p>
+                    <p><span class="step-label">Security Benefit:</span> ${policy.benefit}</p>
+                </div>
+            `;
+            natPoliciesContainer.appendChild(stepCard);
+        });
+
+        // Toggle card expansion
+        function toggleCard(card) {
+            card.classList.toggle('expanded');
+            const icon = card.querySelector('.card-icon');
+            icon.textContent = card.classList.contains('expanded') ? '▲' : '▼';
+        }
+    </script>
+</body>
+</html>
